@@ -12,7 +12,7 @@ for username in players['users']:
 
 open("data.txt", "w").close() #clear the file
 
-for username in player_list:
+for index, username in enumerate(player_list):
     url2 = f"https://lichess.org/api/games/user/{username}"
     params = {"max" : 1000, "rated" : True, "perfType" : "blitz", "moves": False, "tags" : False, "opening" : True}
     headers = {"Accept" : "application/x-ndjson"}
@@ -29,10 +29,9 @@ for username in player_list:
         writeFile.write(f"User: {username}\n")
         for game in games:
             json_game = json.loads(game) #loading the JSON
-            print(json_game)
             try:
                 writeFile.write(f"{json_game['opening']['eco']}\n") #navigating to the data we want
             except:
                 break #Basically, if the game is resigned or whatever before an opening can be found
-
+    print(f"{index + 1} / 200 ")
     time.sleep(1) #give the API a break
